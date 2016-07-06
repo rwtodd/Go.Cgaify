@@ -1,6 +1,6 @@
 package main
 
-//go:generate go run gen\makevga.go > vgapal.go
+//go:generate go run gen\makevga.go 
 
 import (
 	"image/color"
