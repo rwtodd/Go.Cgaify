@@ -9,6 +9,7 @@ import (
 	_ "image/jpeg"
 	_ "image/png"
 	"os"
+	"strings"
 
 	"github.com/nfnt/resize"
 	"github.com/rwtodd/apputil-go/cmdline"
@@ -19,7 +20,12 @@ var hlp = flag.Bool("h", false, "display help text")
 var ssize = flag.Bool("ss", false, "same size; don't resize the image")
 
 func help() {
-	fmt.Fprintln(os.Stderr, "usage: cgaify [-m MODE] [-h] file...")
+	fmt.Fprintln(os.Stderr, "usage: cgaify [-m MODE] [-ss] [-h] file...")
+	fmt.Fprintln(os.Stderr, "\nOptions:")
+	fmt.Fprintln(os.Stderr, "\t-h  display this help text")
+	fmt.Fprintln(os.Stderr, "\t-m  select target graphics mode (default CGA1)")
+	fmt.Fprintln(os.Stderr, "\t-ss same size; don't resize the image")
+
 	fmt.Fprintln(os.Stderr, "\nModes:")
 	for k, v := range modes {
 		fmt.Fprintf(os.Stderr, "\t%s:\t%s\n", k, v.desc)
@@ -38,7 +44,7 @@ func main() {
 	cmdline.GlobArgs()
 	flag.Parse()
 
-	gmode, ok := modes[*gmd]
+	gmode, ok := modes[strings.ToUpper(*gmd)]
 	if !ok || *hlp || len(flag.Args()) == 0 {
 		help()
 	}
