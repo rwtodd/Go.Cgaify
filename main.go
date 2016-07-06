@@ -82,7 +82,7 @@ func main() {
 
 		outfile, err := os.OpenFile(
 			filepath.Base(fname)+"_"+*gmd+".gif",
-			os.O_WRONLY|os.O_CREATE,
+			os.O_WRONLY|os.O_CREATE|os.O_TRUNC,
 			0666)
 		if err != nil {
 			disperr(fname, err)
