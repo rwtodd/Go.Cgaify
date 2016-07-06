@@ -1,5 +1,7 @@
 package main
 
+//go:generate go run gen\makevga.go > vgapal.go
+
 import (
 	"image/color"
 )
@@ -91,5 +93,11 @@ var modes = map[string]*mode{
 		640,
 		350,
 		egacolors,
+	},
+	"VGA": {
+		"VGA 320x200 256-colors",
+		320,
+		200,
+		vgacolors,
 	},
 }
