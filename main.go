@@ -64,7 +64,7 @@ func main() {
 		} else {
 			newW = 0
 		}
-		// test code: fmt.Printf("W, H = %d %d\n", newW, newH) 
+		// test code: fmt.Printf("W, H = %d %d\n", newW, newH)
 		srcimg = resize.Resize(newW, newH, srcimg, resize.Bicubic)
 
 		srcBounds = srcimg.Bounds()

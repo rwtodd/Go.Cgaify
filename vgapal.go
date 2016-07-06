@@ -1,6 +1,6 @@
-package main 
+package main
 
-// this file is generated via code 
+// this file is generated via code
 
 import "image/color"
 
@@ -262,4 +262,3 @@ var vgacolors = color.Palette{
 	color.RGBA{0xff, 0xff, 0xaa, 0xFF},
 	color.RGBA{0xff, 0xff, 0xff, 0xFF},
 }
-
