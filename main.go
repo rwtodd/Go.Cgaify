@@ -9,6 +9,7 @@ import (
 	_ "image/jpeg"
 	_ "image/png"
 	"os"
+	"path/filepath"
 	"strings"
 
 	"github.com/nfnt/resize"
@@ -79,12 +80,18 @@ func main() {
 		outimg := image.NewPaletted(srcBounds, gmode.colors)
 		draw.FloydSteinberg.Draw(outimg, srcBounds, srcimg, image.ZP)
 
-		outfile, err := os.OpenFile(fname+"_"+*gmd+".gif", os.O_WRONLY|os.O_CREATE, 0666)
+		outfile, err := os.OpenFile(
+			filepath.Base(fname)+"_"+*gmd+".gif",
+			os.O_WRONLY|os.O_CREATE,
+			0666)
 		if err != nil {
 			disperr(fname, err)
 			continue
 		}
-		err = gif.Encode(outfile, outimg, &gif.Options{len(gmode.colors), nil, nil})
+		err = gif.Encode(
+			outfile,
+			outimg,
+			&gif.Options{len(gmode.colors), nil, nil})
 		outfile.Close()
 		if err != nil {
 			disperr(fname, err)
