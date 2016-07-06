@@ -39,7 +39,7 @@ func main() {
 	flag.Parse()
 
 	gmode, ok := modes[*gmd]
-	if !ok || *hlp {
+	if !ok || *hlp || len(flag.Args()) == 0 {
 		help()
 	}
 
