@@ -59,16 +59,12 @@ func main() {
 		// resize image ...
 		srcBounds := srcimg.Bounds()
 		newW, newH := gmode.width, gmode.height
-		fmt.Printf("SRC %f %f == %f\n", float64(srcBounds.Dx()), float64(srcBounds.Dy()),
-			(float64(srcBounds.Dx()) / float64(srcBounds.Dy())) )
-		fmt.Printf("TGT %f\n", gmode.aspectRatio()) 
-
 		if (float64(srcBounds.Dx()) / float64(srcBounds.Dy())) > gmode.aspectRatio() {
 			newH = 0
 		} else {
 			newW = 0
 		}
-		fmt.Printf("W, H = %d %d\n", newW, newH) 
+		// test code: fmt.Printf("W, H = %d %d\n", newW, newH) 
 		srcimg = resize.Resize(newW, newH, srcimg, resize.Bicubic)
 
 		srcBounds = srcimg.Bounds()
