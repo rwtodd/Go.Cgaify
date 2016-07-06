@@ -16,6 +16,7 @@ import (
 
 var gmd = flag.String("m", "CGA1", "graphics mode to use for output")
 var hlp = flag.Bool("h", false, "display help text")
+var ssize = flag.Bool("ss", false, "same size; don't resize the image")
 
 func help() {
 	fmt.Fprintln(os.Stderr, "usage: cgaify [-m MODE] [-h] file...")
@@ -55,19 +56,20 @@ func main() {
 			disperr(fname, err)
 			continue
 		}
+		srcBounds := srcimg.Bounds()
 
 		// resize image ...
-		srcBounds := srcimg.Bounds()
-		newW, newH := gmode.width, gmode.height
-		if (float64(srcBounds.Dx()) / float64(srcBounds.Dy())) > gmode.aspectRatio() {
-			newH = 0
-		} else {
-			newW = 0
+		if !*ssize {
+			newW, newH := gmode.width, gmode.height
+			if (float64(srcBounds.Dx()) / float64(srcBounds.Dy())) > gmode.aspectRatio() {
+				newH = 0
+			} else {
+				newW = 0
+			}
+			// test code: fmt.Printf("W, H = %d %d\n", newW, newH)
+			srcimg = resize.Resize(newW, newH, srcimg, resize.Bicubic)
+			srcBounds = srcimg.Bounds()
 		}
-		// test code: fmt.Printf("W, H = %d %d\n", newW, newH)
-		srcimg = resize.Resize(newW, newH, srcimg, resize.Bicubic)
-
-		srcBounds = srcimg.Bounds()
 		outimg := image.NewPaletted(srcBounds, gmode.colors)
 		draw.FloydSteinberg.Draw(outimg, srcBounds, srcimg, image.ZP)
 
