@@ -18,14 +18,16 @@ import (
 
 var gmd = flag.String("m", "CGA1", "graphics mode to use for output")
 var hlp = flag.Bool("h", false, "display help text")
-var ssize = flag.Bool("ss", false, "same size; don't resize the image")
+var rsize = flag.Uint("rsz", 0, "resize the image by x% instead of video-mode size")
+var zc = flag.Uint("zc", 0, "set the zero color of a CGA mode to EGA color N")
 
 func help() {
-	fmt.Fprintln(os.Stderr, "usage: cgaify [-m MODE] [-ss] [-h] file...")
+	fmt.Fprintln(os.Stderr, "usage: cgaify [-h] [-m MODE] [-rsz PCT] [-zc N] file...")
 	fmt.Fprintln(os.Stderr, "\nOptions:")
-	fmt.Fprintln(os.Stderr, "\t-h  display this help text")
-	fmt.Fprintln(os.Stderr, "\t-m  select target graphics mode (default CGA1)")
-	fmt.Fprintln(os.Stderr, "\t-ss same size; don't resize the image")
+	fmt.Fprintln(os.Stderr, "\t-h   display this help text")
+	fmt.Fprintln(os.Stderr, "\t-m   select target graphics mode (default CGA1)")
+	fmt.Fprintln(os.Stderr, "\t-rsz resize by PCT% instead of the video-mode size")
+	fmt.Fprintln(os.Stderr, "\t-zc  set color 0 to EGA color N (CGA modes only)")
 
 	fmt.Fprintln(os.Stderr, "\nModes:")
 	for k, v := range modes {
@@ -46,8 +48,13 @@ func main() {
 	flag.Parse()
 
 	gmode, ok := modes[strings.ToUpper(*gmd)]
-	if !ok || *hlp || len(flag.Args()) == 0 {
+	if !ok || *hlp || (*zc > 15) || len(flag.Args()) == 0 {
 		help()
+	}
+
+	// set the zero color in CGA modes
+	if len(gmode.colors) == 4 {
+		gmode.colors[0] = egacolors[int(*zc)]
 	}
 
 	for _, fname := range flag.Args() {
@@ -66,14 +73,19 @@ func main() {
 		srcBounds := srcimg.Bounds()
 
 		// resize image ...
-		if !*ssize {
+		if *rsize != 100 {
 			newW, newH := gmode.width, gmode.height
 			if (float64(srcBounds.Dx()) / float64(srcBounds.Dy())) > gmode.aspectRatio() {
 				newH = 0
 			} else {
 				newW = 0
 			}
-			// test code: fmt.Printf("W, H = %d %d\n", newW, newH)
+
+			// If the user has selected a percentage by which to resize,
+			// forget what we just calculated and use the percentage instead.
+			if *rsize > 0 {
+				newW, newH = 0, uint(float64(srcBounds.Dy())*(float64(*rsize)/100.0))
+			}
 			srcimg = resize.Resize(newW, newH, srcimg, resize.Bicubic)
 			srcBounds = srcimg.Bounds()
 		}
