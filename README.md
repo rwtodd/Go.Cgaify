@@ -38,7 +38,7 @@ square pixels of today.
 
 ## Get 
 
-    go get github.com/rwtodd/cgaify
+    go get github.com/rwtodd/Go.Cgaify/cmd/cgaify
 
 Giving `-h` will give usage information.
 

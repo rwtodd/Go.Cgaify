@@ -13,7 +13,7 @@ import (
 	"strings"
 
 	"github.com/nfnt/resize"
-	"github.com/rwtodd/apputil/cmdline"
+	"github.com/rwtodd/Go.AppUtil/cmdline"
 )
 
 var gmd = flag.String("m", "CGA1", "graphics mode to use for output")
