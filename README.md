@@ -36,9 +36,9 @@ for viewing on actual old-school CGA screens... for that, I'd need
 to adjust for the aspect ratio of rectangular 80's pixels versus the 
 square pixels of today.
 
-## Get 
+## Installation
 
-    go get github.com/rwtodd/Go.Cgaify/cmd/cgaify
+    go install github.com/rwtodd/Go.Cgaify/cmd/cgaify@latest
 
 Giving `-h` will give usage information.
 
