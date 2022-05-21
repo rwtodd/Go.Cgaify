@@ -42,3 +42,9 @@ square pixels of today.
 
 Giving `-h` will give usage information.
 
+### Installation: step by step
+- install go(lang) https://go.dev/doc/install
+- install cgaify (`go install github.com/rwtodd/Go.Cgaify/cmd/cgaify@latest`)
+- go to `$GOPATH/bin` where cgaify is installed (you can check `GOPATH` value by doing `go env`)
+- run `./cgaify -h` to see options. `./cgaify -m CGA1 $PATH_TO_REPO/example/example.jpg`
+- Image `example.jpg_CGA1.gif` will be generated in this directory
