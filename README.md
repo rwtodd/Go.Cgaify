@@ -36,9 +36,15 @@ for viewing on actual old-school CGA screens... for that, I'd need
 to adjust for the aspect ratio of rectangular 80's pixels versus the 
 square pixels of today.
 
-## Get 
+## Installation
 
-    go get github.com/rwtodd/Go.Cgaify/cmd/cgaify
+    go install github.com/rwtodd/Go.Cgaify/cmd/cgaify@latest
 
 Giving `-h` will give usage information.
 
+### Installation: step by step
+- install go(lang) https://go.dev/doc/install
+- install cgaify (`go install github.com/rwtodd/Go.Cgaify/cmd/cgaify@latest`)
+- go to `$GOPATH/bin` where cgaify is installed (you can check `GOPATH` value by doing `go env`)
+- run `./cgaify -h` to see options. `./cgaify -m CGA1 $PATH_TO_REPO/example/example.jpg`
+- Image `example.jpg_CGA1.gif` will be generated in this directory
